@@ -1,0 +1,94 @@
+name: Windows Release
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+concurrency:
+  group: windows-release-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  release_check:
+    name: Check release version
+    runs-on: ubuntu-latest
+    outputs:
+      prerelease: ${{ steps.release.outputs.prerelease }}
+      should_release: ${{ steps.release.outputs.should_release }}
+      tag: ${{ steps.release.outputs.tag }}
+      version: ${{ steps.release.outputs.version }}
+    steps:
+      - name: Check out repository and tags
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Verify synchronized version
+        id: release
+        run: node scripts/release-version.mjs --github-output
+
+  windows_release:
+    name: Build and publish Windows installers
+    needs: release_check
+    if: needs.release_check.outputs.should_release == 'true'
+    runs-on: windows-latest
+    timeout-minutes: 45
+    permissions:
+      contents: write
+    steps:
+      - name: Check out release commit
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache Rust build output
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri -> target
+          cache-on-failure: true
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Run release checks
+        run: |
+          npm run check
+          npm run test:sites
+
+      - name: Build installers and publish release
+        id: tauri
+        uses: tauri-apps/tauri-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: ${{ needs.release_check.outputs.tag }}
+          releaseName: Wine King v__VERSION__
+          releaseBody: |
+            Automated Windows release for Wine King.
+
+            Download the NSIS setup executable for the simplest installation,
+            or the MSI package for managed Windows environments.
+          generateReleaseNotes: true
+          releaseDraft: false
+          prerelease: ${{ needs.release_check.outputs.prerelease }}
+          uploadUpdaterJson: false
+          retryAttempts: 2
+          tauriScript: npx tauri
+          args: --bundles nsis,msi

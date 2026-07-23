@@ -2,6 +2,18 @@
 
 All notable changes to Wine King are documented in this file.
 
+## [0.1.2] - 2026-07-23
+
+### Added
+
+- Added a GitHub Actions release workflow that detects an untagged application
+  version, validates the project, builds Windows NSIS and MSI installers,
+  creates the matching Git tag, and publishes the installers under GitHub
+  Releases.
+- Added release-version validation across the npm, Cargo, and Tauri
+  configuration files.
+- Added regression tests that prevent duplicate releases for an existing tag.
+
 ## [0.1.1] - 2026-07-23
 
 ### Fixed

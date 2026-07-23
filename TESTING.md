@@ -13,6 +13,25 @@ npm run test:sites
 npm run tauri:build
 ```
 
+## What to test for v0.1.2
+
+### GitHub release automation
+
+- Confirm the Windows Release workflow starts after the v0.1.2 commit reaches
+  `master`.
+- Confirm the release-check job reports version `0.1.2` and tag `v0.1.2`.
+- Confirm the Windows job passes all tests and builds both installer formats.
+- Confirm GitHub creates the `v0.1.2` tag on the release commit.
+- Confirm the Wine King v0.1.2 release is public and contains both an NSIS
+  `-setup.exe` and an `.msi` asset.
+- Download each installer on Windows, install Wine King, launch it, start a new
+  season, and uninstall it.
+- Push or manually run the workflow again without changing the version and
+  confirm the Windows build job is skipped instead of creating a duplicate
+  release.
+- Confirm any Unknown Publisher or SmartScreen warning is understood as the
+  current unsigned-installer limitation.
+
 ## What to test for v0.1.1
 
 ### Windows development startup

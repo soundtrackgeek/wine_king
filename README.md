@@ -3,12 +3,12 @@
 Wine King is a desktop vineyard-management and rivalry strategy game built with
 Rust, Tauri 2, React, and TypeScript.
 
-Version 0.1.1 is a complete single-player vertical slice: manage a family
+Version 0.1.2 is a complete single-player vertical slice: manage a family
 estate through a deterministic 12-week season, move wine from vineyard to
 market, respond to a rival price war, and finish profitable with a stronger
 estate valuation than Monte Verde.
 
-## Features in v0.1.1
+## Features in v0.1.2
 
 - One player estate and one computer-controlled rival
 - Three interactive vineyard parcels and four production facilities
@@ -22,6 +22,7 @@ estate valuation than Monte Verde.
   interactive estate hotspots
 - A browser preview gateway for interface development; Rust remains the
   authoritative desktop simulation
+- Automated tagged Windows releases with NSIS and MSI installers
 
 ## Requirements
 
@@ -109,7 +110,26 @@ a pack can replace the default icon language without changing React
 components.
 
 Visual packs intentionally cannot inject executable code or change gameplay.
-Runtime pack importing and arbitrary interface-layout mods are outside v0.1.1.
+Runtime pack importing and arbitrary interface-layout mods are outside v0.1.2.
+
+## Windows releases
+
+Every synchronized version bump pushed to `master` is checked against the
+repository's Git tags. When `v<version>` does not exist, the Windows Release
+workflow:
+
+1. Validates that npm, Cargo, and Tauri all declare the same semantic version.
+2. Runs the TypeScript, frontend, configuration, Rust, and Sites tests.
+3. Builds 64-bit Windows NSIS (`-setup.exe`) and MSI installers.
+4. Creates the `v<version>` tag and publishes both installers under GitHub
+   Releases.
+
+Pushes that keep an already-tagged version skip the Windows build. The workflow
+can also be started manually from the Actions page to retry an untagged
+version.
+
+The installers are currently unsigned. Windows may display an Unknown Publisher
+or SmartScreen warning until a code-signing certificate is configured.
 
 ## Release convention
 
