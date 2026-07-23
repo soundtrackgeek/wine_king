@@ -3,12 +3,12 @@
 Wine King is a desktop vineyard-management and rivalry strategy game built with
 Rust, Tauri 2, React, and TypeScript.
 
-Version 0.2.0 is a complete single-player vertical slice: manage a family
+Version 0.2.1 is a complete single-player vertical slice: manage a family
 estate through a deterministic 12-week season, move wine from vineyard to
 market, respond to a rival price war, and finish profitable with a stronger
 estate valuation than Monte Verde.
 
-## Features in v0.2.0
+## Features in v0.2.1
 
 - One player estate and one computer-controlled rival
 - Three interactive vineyard parcels and four production facilities
@@ -27,6 +27,8 @@ estate valuation than Monte Verde.
   interval
 - A bottom-right update notice with release notes, download progress, and
   save-before-update protection
+- A GUI-only installed Windows executable that does not open an accompanying
+  terminal window
 
 ## Requirements
 
@@ -69,7 +71,7 @@ installer is not started if that save fails. The app then downloads the update,
 installs it in passive mode, and restarts.
 
 Version 0.2.0 is the updater bootstrap release. Existing v0.1.x installations
-must install v0.2.0 manually from GitHub Releases once; v0.2.0 and later can
+must install v0.2.0 or newer manually from GitHub Releases once; v0.2.0 and later can
 discover subsequent releases in the game.
 
 ## Verify
@@ -131,7 +133,7 @@ a pack can replace the default icon language without changing React
 components.
 
 Visual packs intentionally cannot inject executable code or change gameplay.
-Runtime pack importing and arbitrary interface-layout mods are outside v0.2.0.
+Runtime pack importing and arbitrary interface-layout mods are outside v0.2.1.
 
 ## Windows releases
 

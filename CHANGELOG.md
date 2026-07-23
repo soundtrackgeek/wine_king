@@ -2,6 +2,19 @@
 
 All notable changes to Wine King are documented in this file.
 
+## [0.2.1] - 2026-07-23
+
+### Fixed
+
+- Changed release builds to use the Windows GUI subsystem so installed Wine
+  King launches only the game window and no longer opens a dependent terminal
+  window.
+
+### Added
+
+- Added a release-configuration regression test that prevents the Windows GUI
+  subsystem declaration from being removed accidentally.
+
 ## [0.2.0] - 2026-07-23
 
 ### Added

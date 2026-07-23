@@ -13,6 +13,26 @@ npm run test:sites
 npm run tauri:build
 ```
 
+## What to test for v0.2.1
+
+### Installed Windows launch
+
+- Install v0.2.1 using the NSIS setup executable.
+- Launch Wine King from the Start menu and confirm only the game window opens.
+- Confirm no Command Prompt, PowerShell, Windows Terminal, or console window
+  remains attached to the game.
+- Close the game window and confirm Wine King exits normally.
+- Repeat the same checks after installing with the MSI package.
+- Run `npm run tauri:dev` and confirm development logging remains available in
+  the terminal that started the command.
+
+### v0.2.0 updater regression
+
+- From an installed v0.2.0 build, accept the v0.2.1 update.
+- Confirm the current season is saved before installation.
+- Confirm v0.2.1 restarts with only the game window and the saved season can be
+  loaded.
+
 ## What to test for v0.2.0
 
 ### Bootstrap and update discovery
