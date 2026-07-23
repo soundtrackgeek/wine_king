@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "defaultPack": "sunlit-terroir",
+  "packs": [
+    {
+      "id": "sunlit-terroir",
+      "manifest": "/packs/sunlit-terroir/pack.json"
+    }
+  ]
+}

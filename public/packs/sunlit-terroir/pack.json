@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 1,
+  "id": "sunlit-terroir",
+  "name": "Sunlit Terroir",
+  "version": "0.1.0",
+  "description": "The default Wine King visual pack: bright estate management with restrained heritage details.",
+  "theme": {
+    "colors": {
+      "parchment": "#f6f0e5",
+      "paper": "#fffaf0",
+      "navy": "#223446",
+      "navyDeep": "#172838",
+      "sage": "#6f8264",
+      "sageDark": "#52654a",
+      "burgundy": "#7a2638",
+      "terracotta": "#b95f42",
+      "plum": "#5d365c",
+      "straw": "#d6b86a",
+      "ink": "#25313a",
+      "muted": "#6c716d",
+      "line": "#d7cbb7",
+      "success": "#527c54",
+      "warning": "#c7842f",
+      "danger": "#a23f43"
+    },
+    "fonts": {
+      "display": {
+        "family": "Wine King Display",
+        "regular": "fonts/cormorant-garamond-600.woff2",
+        "bold": "fonts/cormorant-garamond-700.woff2"
+      },
+      "ui": {
+        "family": "Wine King UI",
+        "regular": "fonts/source-sans-3-400.woff2",
+        "bold": "fonts/source-sans-3-600.woff2"
+      }
+    }
+  },
+  "assets": {
+    "scene.estate.overview": "images/estate-overview.png",
+    "event.rival.priceWar": "images/rival-price-war.png",
+    "wine.reserveRed": "images/reserve-red.png",
+    "wine.estateChardonnay": "images/estate-chardonnay.png",
+    "wine.hillsideRose": "images/hillside-rose.png"
+  },
+  "icons": {
+    "nav.overview": "HouseLine",
+    "nav.vineyards": "Farm",
+    "nav.winery": "Factory",
+    "nav.cellar": "Cylinder",
+    "nav.bottling": "Wine",
+    "nav.market": "Storefront",
+    "nav.finance": "Coins",
+    "nav.people": "UsersThree",
+    "nav.rivals": "ShieldChevron",
+    "nav.settings": "GearSix",
+    "action.tend": "Leaf",
+    "action.harvest": "Basket",
+    "action.process": "ArrowsClockwise",
+    "action.bottle": "Wine",
+    "action.sell": "CurrencyEur",
+    "status.cash": "Coins",
+    "status.prestige": "CrownSimple",
+    "status.week": "CalendarDots",
+    "status.weather": "Sun",
+    "status.alert": "Bell",
+    "facility.winery": "Factory",
+    "facility.cellar": "Cylinder",
+    "facility.bottling": "Wine",
+    "facility.equipment": "Tractor",
+    "plot.grapes": "Plant",
+    "event.rival": "Sword",
+    "common.close": "X",
+    "common.save": "FloppyDisk",
+    "common.load": "FolderOpen",
+    "common.new": "Sparkle",
+    "common.next": "ArrowRight"
+  },
+  "scene": {
+    "hotspots": [
+      {
+        "id": "plot-north",
+        "kind": "plot",
+        "targetId": "north-ridge",
+        "label": "North Ridge",
+        "x": 48,
+        "y": 17
+      },
+      {
+        "id": "plot-west",
+        "kind": "plot",
+        "targetId": "west-slope",
+        "label": "West Slope",
+        "x": 17,
+        "y": 36
+      },
+      {
+        "id": "plot-south",
+        "kind": "plot",
+        "targetId": "south-fields",
+        "label": "South Fields",
+        "x": 21,
+        "y": 70
+      },
+      {
+        "id": "winery",
+        "kind": "facility",
+        "targetId": "winery",
+        "label": "Winery",
+        "x": 49,
+        "y": 48
+      },
+      {
+        "id": "cellar",
+        "kind": "facility",
+        "targetId": "cellar",
+        "label": "Cellar",
+        "x": 81,
+        "y": 25
+      },
+      {
+        "id": "bottling",
+        "kind": "facility",
+        "targetId": "bottling",
+        "label": "Bottling",
+        "x": 80,
+        "y": 65
+      },
+      {
+        "id": "equipment",
+        "kind": "facility",
+        "targetId": "equipment",
+        "label": "Equipment",
+        "x": 49,
+        "y": 78
+      }
+    ]
+  }
+}
