@@ -1,6 +1,6 @@
 {
   "name": "wine-king",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "type": "module",
   "scripts": {
@@ -14,7 +14,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:rust": "cargo test --manifest-path src-tauri/Cargo.toml",
-    "check": "npm run typecheck && npm test && npm run test:rust",
+    "check": "npm run typecheck && npm test && npm run test:config && npm run test:rust",
+    "test:config": "node --test tests/vite-config.test.mjs",
     "test:sites": "node --test tests/sites-worker.test.mjs"
   },
   "dependencies": {

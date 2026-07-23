@@ -2,6 +2,18 @@
 
 All notable changes to Wine King are documented in this file.
 
+## [0.1.1] - 2026-07-23
+
+### Fixed
+
+- Excluded `src-tauri` from Vite's filesystem watcher so Windows does not raise
+  `EBUSY` while Cargo replaces locked executables under `target`.
+
+### Added
+
+- Added an automated configuration regression test for the Cargo watcher
+  exclusion.
+
 ## [0.1.0] - 2026-07-23
 
 ### Added

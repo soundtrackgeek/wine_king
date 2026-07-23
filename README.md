@@ -3,12 +3,12 @@
 Wine King is a desktop vineyard-management and rivalry strategy game built with
 Rust, Tauri 2, React, and TypeScript.
 
-Version 0.1.0 is a complete single-player vertical slice: manage a family
+Version 0.1.1 is a complete single-player vertical slice: manage a family
 estate through a deterministic 12-week season, move wine from vineyard to
 market, respond to a rival price war, and finish profitable with a stronger
 estate valuation than Monte Verde.
 
-## Features in v0.1.0
+## Features in v0.1.1
 
 - One player estate and one computer-controlled rival
 - Three interactive vineyard parcels and four production facilities
@@ -37,6 +37,10 @@ npm install
 npm run tauri:dev
 ```
 
+Vite does not watch `src-tauri`; Tauri and Cargo handle Rust-source changes.
+This separation prevents Windows file-lock errors while Cargo replaces build
+scripts under `src-tauri/target`.
+
 For browser-only interface development:
 
 ```powershell
@@ -55,7 +59,8 @@ npm run test:sites
 npm run tauri:build
 ```
 
-`npm run check` runs TypeScript checking, frontend unit tests, and Rust tests.
+`npm run check` runs TypeScript checking, frontend unit tests, build
+configuration tests, and Rust tests.
 The release checklist is maintained in [TESTING.md](TESTING.md).
 
 ## Project structure
@@ -104,7 +109,7 @@ a pack can replace the default icon language without changing React
 components.
 
 Visual packs intentionally cannot inject executable code or change gameplay.
-Runtime pack importing and arbitrary interface-layout mods are outside v0.1.0.
+Runtime pack importing and arbitrary interface-layout mods are outside v0.1.1.
 
 ## Release convention
 
@@ -123,4 +128,4 @@ The everyday interface uses the bright Sunlit Terroir direction with burgundy,
 Cormorant Garamond typography, and restrained heritage details. Rival
 encounters and major events switch to a dark cinematic presentation.
 
-See [GAME_DESIGN.md](GAME_DESIGN.md) for the v0.1.0 rules and scope.
+See [GAME_DESIGN.md](GAME_DESIGN.md) for the v0.1 rules and scope.

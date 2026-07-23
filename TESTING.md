@@ -13,6 +13,25 @@ npm run test:sites
 npm run tauri:build
 ```
 
+## What to test for v0.1.1
+
+### Windows development startup
+
+- Start from a clean checkout and run `npm install`.
+- Run `npm run tauri:dev` and confirm Cargo compiles past `toml_parser` without
+  a Vite `EBUSY` watcher error.
+- Leave the first Rust build running until the native Wine King window opens.
+- Edit a React source file and confirm Vite hot reload still works.
+- Edit a Rust source file and confirm Tauri recompiles and restarts the native
+  application.
+- Run `npm run dev` and confirm browser-only development still starts normally.
+
+### v0.1.0 regression
+
+- Confirm the Estate Overview opens in the native application.
+- Advance one week, save, advance again, and load the saved state.
+- Complete one vineyard-to-market production loop.
+
 ## What to test for v0.1.0
 
 ### First launch and estate navigation

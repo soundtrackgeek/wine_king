@@ -12,6 +12,11 @@ export default defineConfig({
   server: {
     host: "0.0.0.0",
     allowedHosts: ["terminal.local"],
+    watch: {
+      // Cargo owns this tree and replaces locked Windows executables while
+      // compiling. Tauri watches Rust sources separately, so Vite should not.
+      ignored: ["**/src-tauri/**"],
+    },
     warmup: {
       clientFiles: ["./src/main.tsx"],
     },
