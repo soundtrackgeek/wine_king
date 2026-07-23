@@ -17,6 +17,5 @@
    - Use `git add` to stage all modified files (README.md, CHANGELOG.md, and code files)
    - Create descriptive commit message following existing style
    - Push to remote repository with `git push`
-
-4. **Complete post-push cleanup**:
-   - After every push, run `cargo clean` from the `src-tauri` folder as the final required step
+   - Once `git push` succeeds, the task is complete
+   - Do not wait for, poll, or monitor the resulting GitHub Actions workflow
