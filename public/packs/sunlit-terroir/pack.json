@@ -64,6 +64,7 @@
     "status.week": "CalendarDots",
     "status.weather": "Sun",
     "status.alert": "Bell",
+    "status.update": "ArrowsClockwise",
     "facility.winery": "Factory",
     "facility.cellar": "Cylinder",
     "facility.bottling": "Wine",
@@ -74,7 +75,9 @@
     "common.save": "FloppyDisk",
     "common.load": "FolderOpen",
     "common.new": "Sparkle",
-    "common.next": "ArrowRight"
+    "common.next": "ArrowRight",
+    "action.update": "ArrowCircleDown",
+    "action.check": "ArrowsClockwise"
   },
   "scene": {
     "hotspots": [

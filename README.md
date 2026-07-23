@@ -3,12 +3,12 @@
 Wine King is a desktop vineyard-management and rivalry strategy game built with
 Rust, Tauri 2, React, and TypeScript.
 
-Version 0.1.2 is a complete single-player vertical slice: manage a family
+Version 0.2.0 is a complete single-player vertical slice: manage a family
 estate through a deterministic 12-week season, move wine from vineyard to
 market, respond to a rival price war, and finish profitable with a stronger
 estate valuation than Monte Verde.
 
-## Features in v0.1.2
+## Features in v0.2.0
 
 - One player estate and one computer-controlled rival
 - Three interactive vineyard parcels and four production facilities
@@ -23,6 +23,10 @@ estate valuation than Monte Verde.
 - A browser preview gateway for interface development; Rust remains the
   authoritative desktop simulation
 - Automated tagged Windows releases with NSIS and MSI installers
+- Signed in-game update checks at startup and on a configurable background
+  interval
+- A bottom-right update notice with release notes, download progress, and
+  save-before-update protection
 
 ## Requirements
 
@@ -50,6 +54,23 @@ npm run dev
 
 The browser preview stores saves in local storage. The Tauri application writes
 the authoritative save to the platform application-data directory.
+
+### In-game updates
+
+Wine King checks GitHub Releases once at startup. By default it checks again
+every five minutes while running. Open **Settings → Automatic updates** to
+change the background interval to 5, 15, 30, or 60 minutes, disable background
+checks, or check immediately. Disabling the interval does not disable the
+startup check.
+
+When a newer signed release is available, an update card appears in the
+bottom-right corner. **Update & restart** first saves the current season. The
+installer is not started if that save fails. The app then downloads the update,
+installs it in passive mode, and restarts.
+
+Version 0.2.0 is the updater bootstrap release. Existing v0.1.x installations
+must install v0.2.0 manually from GitHub Releases once; v0.2.0 and later can
+discover subsequent releases in the game.
 
 ## Verify
 
@@ -110,7 +131,7 @@ a pack can replace the default icon language without changing React
 components.
 
 Visual packs intentionally cannot inject executable code or change gameplay.
-Runtime pack importing and arbitrary interface-layout mods are outside v0.1.2.
+Runtime pack importing and arbitrary interface-layout mods are outside v0.2.0.
 
 ## Windows releases
 
@@ -120,16 +141,19 @@ workflow:
 
 1. Validates that npm, Cargo, and Tauri all declare the same semantic version.
 2. Runs the TypeScript, frontend, configuration, Rust, and Sites tests.
-3. Builds 64-bit Windows NSIS (`-setup.exe`) and MSI installers.
-4. Creates the `v<version>` tag and publishes both installers under GitHub
-   Releases.
+3. Builds 64-bit Windows NSIS (`-setup.exe`) and MSI installers plus signed
+   updater artifacts.
+4. Creates the `v<version>` tag and publishes both installers, signatures, and
+   `latest.json` update metadata under GitHub Releases.
 
 Pushes that keep an already-tagged version skip the Windows build. The workflow
 can also be started manually from the Actions page to retry an untagged
 version.
 
-The installers are currently unsigned. Windows may display an Unknown Publisher
-or SmartScreen warning until a code-signing certificate is configured.
+Updater artifacts are cryptographically signed so the game rejects modified
+update packages. The Windows installers are not Authenticode-signed, which is a
+separate trust mechanism; Windows may still display an Unknown Publisher or
+SmartScreen warning until a code-signing certificate is configured.
 
 ## Release convention
 
@@ -139,8 +163,8 @@ Every version bump must include:
 2. An updated feature/configuration summary in this README when applicable.
 3. A user-facing **What to test** checklist immediately after the release
    summary.
-4. Commit, push, and then `cargo clean` from `src-tauri` as required by the
-   repository workflow.
+4. Commit and push. The local task is complete once that push succeeds; GitHub
+   Actions owns the release build from that point.
 
 ## Design
 

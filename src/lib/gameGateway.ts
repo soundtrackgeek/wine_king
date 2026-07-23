@@ -1,13 +1,10 @@
 import { invoke } from "@tauri-apps/api/core";
 import type { GameState, PlayerAction } from "../types/game";
 import { createDemoGame, demoAdvanceWeek, demoPerform } from "./previewEngine";
+import { isTauriRuntime } from "./runtime";
 
 const WEB_SAVE_KEY = "wine-king-v0.1.0-save";
 let previewGame = createDemoGame();
-
-function isTauriRuntime(): boolean {
-  return "__TAURI_INTERNALS__" in window;
-}
 
 export async function getGame(): Promise<GameState> {
   if (isTauriRuntime()) return invoke<GameState>("get_game");

@@ -13,6 +13,49 @@ npm run test:sites
 npm run tauri:build
 ```
 
+## What to test for v0.2.0
+
+### Bootstrap and update discovery
+
+- Install v0.2.0 manually from GitHub Releases; v0.1.x does not contain the
+  updater and therefore cannot discover v0.2.0 itself.
+- Launch the installed game and confirm startup update checking does not block
+  the Estate Overview.
+- Open Settings and confirm the background interval defaults to five minutes.
+- Select 15, 30, 60, Off, and then 5 minutes; restart and confirm the final
+  choice persists.
+- Click **Check now** and confirm an up-to-date status and last-checked time
+  appear without interrupting play.
+- Disconnect the network, check manually, and confirm the error remains
+  recoverable and normal gameplay continues.
+
+### End-to-end update
+
+- Publish a higher test version such as v0.2.1 before validating this section;
+  an installed v0.2.0 correctly reports no update while v0.2.0 is latest.
+- Launch v0.2.0 and confirm the newer version appears in a polished
+  bottom-right update card with release notes.
+- Choose **Later** and confirm the card stays dismissed for the current app
+  session.
+- Relaunch, make a gameplay change, and choose **Update & restart**.
+- Confirm the card reports saving before download progress begins.
+- After restart, load the saved season and confirm week, cash, inventory,
+  vineyards, rival state, and remaining actions match the pre-update state.
+- Simulate or force a save failure and confirm installation does not begin and
+  the card offers a retry.
+
+### Release artifacts and authenticity
+
+- Confirm the v0.2.0 GitHub Release contains NSIS and MSI installers,
+  updater-signature assets, and `latest.json`.
+- Confirm `latest.json` describes v0.2.0 and points to the NSIS updater package.
+- Confirm a package with an invalid or missing updater signature is rejected.
+- Confirm Windows may still show Unknown Publisher because updater signing is
+  not the same as Authenticode installer signing.
+- Run `npm run dev`, open `/?update-preview=1`, and confirm the browser-only
+  preview demonstrates the notification, save-first state, progress, and
+  completion without restarting the browser.
+
 ## What to test for v0.1.2
 
 ### GitHub release automation

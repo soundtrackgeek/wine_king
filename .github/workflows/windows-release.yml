@@ -78,6 +78,8 @@ jobs:
         uses: tauri-apps/tauri-action@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
         with:
           tagName: ${{ needs.release_check.outputs.tag }}
           releaseName: Wine King v__VERSION__
@@ -86,10 +88,15 @@ jobs:
 
             Download the NSIS setup executable for the simplest installation,
             or the MSI package for managed Windows environments.
+
+            This release also includes signed metadata used by Wine King's
+            in-game updater. Windows may still show Unknown Publisher until
+            Authenticode code signing is configured.
           generateReleaseNotes: true
           releaseDraft: false
           prerelease: ${{ needs.release_check.outputs.prerelease }}
-          uploadUpdaterJson: false
+          uploadUpdaterJson: true
+          updaterJsonPreferNsis: true
           retryAttempts: 2
           tauriScript: npx tauri
           args: --bundles nsis,msi

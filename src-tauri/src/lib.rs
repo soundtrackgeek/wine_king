@@ -87,6 +87,13 @@ fn load_game(app: tauri::AppHandle, store: State<'_, GameStore>) -> Result<GameS
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_process::init())
+        .setup(|app| {
+            #[cfg(desktop)]
+            app.handle()
+                .plugin(tauri_plugin_updater::Builder::new().build())?;
+            Ok(())
+        })
         .manage(GameStore(Mutex::new(GameState::new(2_026_072_300_1))))
         .invoke_handler(tauri::generate_handler![
             get_game,

@@ -1,6 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import type { AssetPack } from "./lib/assetPack";
 import { assetUrl, loadAssetPack } from "./lib/assetPack";
+import { IconSlot } from "./components/IconSlot";
+import { UpdateToast } from "./components/UpdateToast";
+import { useGameUpdater } from "./hooks/useGameUpdater";
 import {
   advanceWeek,
   getGame,
@@ -9,6 +12,10 @@ import {
   performAction,
   saveGame,
 } from "./lib/gameGateway";
+import {
+  UPDATE_INTERVAL_OPTIONS,
+  type UpdateIntervalMinutes,
+} from "./lib/updateSettings";
 import type {
   Facility,
   GameState,
@@ -17,7 +24,6 @@ import type {
   VineyardPlot,
   WineBatch,
 } from "./types/game";
-import { IconSlot } from "./components/IconSlot";
 
 type ViewId =
   | "overview"
@@ -54,6 +60,7 @@ export function App() {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [fatalError, setFatalError] = useState<string | null>(null);
+  const updater = useGameUpdater();
 
   useEffect(() => {
     Promise.all([loadAssetPack(), getGame()])
@@ -183,6 +190,13 @@ export function App() {
           onNewGame={handleNewGame}
           onSave={handleSave}
           onLoad={handleLoad}
+          updateIntervalMinutes={updater.intervalMinutes}
+          updateLastCheckedAt={updater.lastCheckedAt}
+          updateStatus={updater.statusText}
+          updateError={updater.error}
+          updateChecking={updater.phase === "checking"}
+          onSetUpdateInterval={updater.setIntervalMinutes}
+          onCheckForUpdates={() => void updater.checkNow()}
         />
 
         <BottomDeck
@@ -205,9 +219,28 @@ export function App() {
       />
 
       {message && (
-        <div className="toast" role="status">
+        <div
+          className={`toast ${updater.availableUpdate ? "toast-above-update" : ""}`}
+          role="status"
+        >
           {message}
         </div>
+      )}
+
+      {updater.availableUpdate && (
+        <UpdateToast
+          pack={pack}
+          update={updater.availableUpdate}
+          phase={updater.phase}
+          progress={updater.progress}
+          error={updater.error}
+          onInstall={() =>
+            void updater.install(async () => {
+              await saveGame();
+            })
+          }
+          onDismiss={updater.dismiss}
+        />
       )}
 
       {game.activeEvent && (
@@ -332,7 +365,7 @@ function Header({ pack, game }: { pack: AssetPack; game: GameState }) {
         <IconSlot pack={pack} slot="status.alert" size={22} />
         <div>
           <strong>{game.notices.length}</strong>
-          <span>Updates</span>
+          <span>Notices</span>
         </div>
       </div>
     </header>
@@ -423,6 +456,13 @@ function ManagementPanel(props: {
   onNewGame: () => void;
   onSave: () => void;
   onLoad: () => void;
+  updateIntervalMinutes: UpdateIntervalMinutes;
+  updateLastCheckedAt: Date | null;
+  updateStatus: string;
+  updateError: string | null;
+  updateChecking: boolean;
+  onSetUpdateInterval: (minutes: UpdateIntervalMinutes) => void;
+  onCheckForUpdates: () => void;
 }) {
   const {
     pack,
@@ -439,6 +479,13 @@ function ManagementPanel(props: {
     onNewGame,
     onSave,
     onLoad,
+    updateIntervalMinutes,
+    updateLastCheckedAt,
+    updateStatus,
+    updateError,
+    updateChecking,
+    onSetUpdateInterval,
+    onCheckForUpdates,
   } = props;
   const selectedPlot =
     game.vineyards.find(({ id }) => id === selectedPlotId) ?? game.vineyards[0];
@@ -740,6 +787,55 @@ function ManagementPanel(props: {
             <strong>{pack.name}</strong>
             <small>Version {pack.version} · manifest schema {pack.schemaVersion}</small>
             <p>{pack.description}</p>
+          </div>
+          <div className="update-settings-card">
+            <div className="update-settings-heading">
+              <IconSlot pack={pack} slot="status.update" size={25} />
+              <div>
+                <strong>Automatic updates</strong>
+                <p>Wine King always checks once at startup.</p>
+              </div>
+            </div>
+            <label htmlFor="update-interval">Background check interval</label>
+            <select
+              id="update-interval"
+              value={updateIntervalMinutes}
+              onChange={(event) =>
+                onSetUpdateInterval(
+                  Number(event.target.value) as UpdateIntervalMinutes,
+                )
+              }
+            >
+              {UPDATE_INTERVAL_OPTIONS.map((minutes) => (
+                <option key={minutes} value={minutes}>
+                  {minutes === 0
+                    ? "Off"
+                    : `Every ${minutes} minutes`}
+                </option>
+              ))}
+            </select>
+            <div className="update-settings-status" aria-live="polite">
+              <span>{updateStatus}</span>
+              <small>
+                {updateLastCheckedAt
+                  ? `Last checked ${updateLastCheckedAt.toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}`
+                  : "No completed check yet"}
+              </small>
+              {updateError && <em>{updateError}</em>}
+            </div>
+            <button
+              type="button"
+              className="check-update-button"
+              disabled={updateChecking}
+              onClick={onCheckForUpdates}
+              data-testid="check-updates"
+            >
+              <IconSlot pack={pack} slot="action.check" size={19} />
+              {updateChecking ? "Checking…" : "Check now"}
+            </button>
           </div>
           <div className="action-stack utility-actions">
             <ActionButton

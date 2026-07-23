@@ -2,6 +2,29 @@
 
 All notable changes to Wine King are documented in this file.
 
+## [0.2.0] - 2026-07-23
+
+### Added
+
+- Added signed in-game update checks at startup and on a persisted background
+  interval that defaults to five minutes.
+- Added update settings for 5, 15, 30, or 60 minute background checks, an off
+  option, and a manual check.
+- Added a polished bottom-right update card with release notes, download
+  progress, retry handling, and update deferral.
+- Added automatic season saving before installation; a failed save safely
+  prevents the updater from continuing.
+- Added replaceable semantic visual-pack icons for checking and installing
+  updates.
+- Added unit coverage for interval persistence and save-before-install
+  ordering.
+
+### Changed
+
+- Updated Windows release automation to sign updater packages and publish
+  `latest.json` metadata and signatures alongside NSIS and MSI installers.
+- Registered the least-privilege Tauri updater and restart capabilities.
+
 ## [0.1.2] - 2026-07-23
 
 ### Added

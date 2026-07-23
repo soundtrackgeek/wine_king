@@ -1,7 +1,7 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
   "productName": "Wine King",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "identifier": "com.wineking.game",
   "build": {
     "beforeDevCommand": "npm run dev",
@@ -28,6 +28,7 @@
   },
   "bundle": {
     "active": true,
+    "createUpdaterArtifacts": true,
     "targets": "all",
     "icon": [
       "icons/32x32.png",
@@ -35,5 +36,16 @@
       "icons/128x128@2x.png",
       "icons/icon.ico"
     ]
+  },
+  "plugins": {
+    "updater": {
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDRDMDVFOUJEMEJBNkQ0RgpSV1JQYmJyUW0xN0FCR1BGZEtaNUhwdjhYWG9JQWRVUm1yL3Y5YWYzSTg3c2ZadTIxb2dIK3RvZwo=",
+      "endpoints": [
+        "https://github.com/soundtrackgeek/wine_king/releases/latest/download/latest.json"
+      ],
+      "windows": {
+        "installMode": "passive"
+      }
+    }
   }
 }

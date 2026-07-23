@@ -1,6 +1,7 @@
 import type { ComponentType } from "react";
 import {
   ArrowRight,
+  ArrowCircleDown,
   ArrowsClockwise,
   Basket,
   Bell,
@@ -33,6 +34,7 @@ import { packFileUrl } from "../lib/assetPack";
 
 const registry: Record<string, ComponentType<IconProps>> = {
   ArrowRight,
+  ArrowCircleDown,
   ArrowsClockwise,
   Basket,
   Bell,
